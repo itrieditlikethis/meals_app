@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 
-import '../widgets/specific_category_list_item.dart';
+import '../widgets/meal_preview.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({super.key, required this.title, required this.mealsData});
@@ -17,15 +17,40 @@ class MealsScreen extends StatelessWidget {
     if (mealsData.isNotEmpty) {
       content = ListView.builder(
         itemCount: mealsData.length,
-        itemBuilder: (ctx, index) =>
-            SpecificCategoryListItem(mealsData: mealsData, index: index),
+        itemBuilder: (ctx, index) => MealPreview(meal: mealsData[index]),
       );
     } else {
-      content = Center(child: Text('OOPS'));
+      content = Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Uh oh ... nothing here!',
+              style: theme.textTheme.headlineLarge!.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Try selecting a different category!',
+              style: theme.textTheme.bodyLarge!.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+      );
     }
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(
+          title: Text(
+            title,
+            style: theme.textTheme.headlineLarge!.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
         body: content,
         backgroundColor: theme.scaffoldBackgroundColor,
       ),
