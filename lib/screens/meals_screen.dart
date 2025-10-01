@@ -23,10 +23,12 @@ class MealsScreen extends StatelessWidget {
     } else {
       content = Center(child: Text('OOPS'));
     }
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: content,
-      backgroundColor: theme.scaffoldBackgroundColor,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text(title)),
+        body: content,
+        backgroundColor: theme.scaffoldBackgroundColor,
+      ),
     );
   }
 }
