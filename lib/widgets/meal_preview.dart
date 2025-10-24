@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../models/meal.dart';
 
 class MealPreview extends StatelessWidget {
   final Meal meal;
 
-  // final int index;
-
   const MealPreview({
     super.key,
     required this.meal,
-    // required this.index,
   });
 
   @override
@@ -21,25 +19,18 @@ class MealPreview extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
-      // key: ValueKey(mealsData[index].title),
       color: theme.colorScheme.secondaryContainer,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30),
       ),
+      clipBehavior: Clip.hardEdge,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Column(
           spacing: 15,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-              child: Image.network(
-                meal.imageUrl,
-                fit: BoxFit.cover,
-                height: screenHeight / 4,
-                width: double.infinity,
-              ),
-            ),
+            FadeInImage(placeholder: MemoryImage(kTransparentImage), image:
+            NetworkImage(meal.imageUrl)),
             Text(
               meal.title,
               style: theme.textTheme.headlineMedium!.copyWith(
