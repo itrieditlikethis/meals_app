@@ -24,69 +24,91 @@ class MealPreview extends StatelessWidget {
         borderRadius: BorderRadiusGeometry.circular(30),
       ),
       clipBehavior: Clip.hardEdge,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Column(
-          spacing: 15,
+      child: InkWell(
+        onTap: () {},
+        child: Stack(
           children: [
-            FadeInImage(placeholder: MemoryImage(kTransparentImage), image:
-            NetworkImage(meal.imageUrl)),
-            Text(
-              meal.title,
-              style: theme.textTheme.headlineMedium!.copyWith(
-                color: theme.colorScheme.onSurface,
-              ),
-              textAlign: TextAlign.left,
+            FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: NetworkImage(meal.imageUrl),
+              height: screenHeight / 4,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                color: Color.fromRGBO(0, 0, 0, 0.4),
+                child: Column(
                   spacing: 10,
                   children: [
-                    Icon(
-                      Icons.timer_sharp,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
                     Text(
-                      meal.duration.toString(),
-                      style: theme.textTheme.labelLarge!.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                      meal.title,
+                      style: theme.textTheme.headlineMedium!.copyWith(
+                        color: theme.colorScheme.onSurface,
+                        fontSize: 20,
                       ),
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Icon(
+                              Icons.timer_sharp,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                            Text(
+                              meal.duration.toString(),
+                              style: theme.textTheme.labelLarge!.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                            Text(
+                              meal.affordability.name,
+                              style: theme.textTheme.labelLarge!.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Icon(
+                              Icons.account_tree_outlined,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                            Text(
+                              meal.complexity.name,
+                              style: theme.textTheme.labelLarge!.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Row(
-                  spacing: 10,
-                  children: [
-                    Icon(
-                      Icons.account_balance_wallet_outlined,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    Text(
-                      meal.affordability.name,
-                      style: theme.textTheme.labelLarge!.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 10,
-                  children: [
-                    Icon(
-                      Icons.account_tree_outlined,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    Text(
-                      meal.complexity.name,
-                      style: theme.textTheme.labelLarge!.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ],
         ),
