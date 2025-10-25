@@ -7,10 +7,17 @@ import '../models/meal.dart';
 class MealPreview extends StatelessWidget {
   final Meal meal;
 
-  const MealPreview({
-    super.key,
-    required this.meal,
-  });
+  const MealPreview({super.key, required this.meal});
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
+
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +48,42 @@ class MealPreview extends StatelessWidget {
               right: 0,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                color: Color.fromRGBO(0, 0, 0, 0.4),
-                child: MealPreviewTrait(meal: meal),
+                color: theme.colorScheme.surfaceContainer.withValues(
+                  alpha: 0.4,
+                ),
+                child: Column(
+                  spacing: 10,
+                  children: [
+                    Text(
+                      meal.title,
+                      style: theme.textTheme.headlineMedium!.copyWith(
+                        color: theme.colorScheme.onSurface,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        MealPreviewTrait(
+                          icon: Icons.timer_sharp,
+                          label: meal.duration.toString(),
+                        ),
+                        MealPreviewTrait(
+                          icon: Icons.account_balance_wallet_outlined,
+                          label: affordabilityText,
+                        ),
+                        MealPreviewTrait(
+                          icon: Icons.account_tree_outlined,
+                          label: complexityText,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
