@@ -6,8 +6,9 @@ import '../models/meal.dart';
 
 class MealPreview extends StatelessWidget {
   final Meal meal;
+  final void Function() onSelectMeal;
 
-  const MealPreview({super.key, required this.meal});
+  const MealPreview({super.key, required this.meal, required this.onSelectMeal});
 
   String get affordabilityText {
     return meal.affordability.name[0].toUpperCase() +
@@ -32,7 +33,7 @@ class MealPreview extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        onTap: () {},
+        onTap: onSelectMeal,
         child: Stack(
           children: [
             FadeInImage(
