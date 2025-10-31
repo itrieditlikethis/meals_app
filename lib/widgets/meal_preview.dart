@@ -8,7 +8,11 @@ class MealPreview extends StatelessWidget {
   final Meal meal;
   final void Function() onSelectMeal;
 
-  const MealPreview({super.key, required this.meal, required this.onSelectMeal});
+  const MealPreview({
+    super.key,
+    required this.meal,
+    required this.onSelectMeal,
+  });
 
   String get affordabilityText {
     return meal.affordability.name[0].toUpperCase() +

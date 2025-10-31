@@ -14,7 +14,7 @@ class MealsScreen extends StatelessWidget {
   void _selectMeal(BuildContext context, Meal meal) {
     Navigator.of(
       context,
-    ).push(MaterialPageRoute(builder: (ctx) => MealDetailsScreen(meal: meal,)));
+    ).push(MaterialPageRoute(builder: (ctx) => MealDetailsScreen(meal: meal)));
   }
 
   @override
@@ -24,7 +24,10 @@ class MealsScreen extends StatelessWidget {
     if (mealsData.isNotEmpty) {
       content = ListView.builder(
         itemCount: mealsData.length,
-        itemBuilder: (ctx, index) => MealPreview(meal: mealsData[index], onSelectMeal: () => _selectMeal(context, mealsData[index]),),
+        itemBuilder: (ctx, index) => MealPreview(
+          meal: mealsData[index],
+          onSelectMeal: () => _selectMeal(context, mealsData[index]),
+        ),
       );
     } else {
       content = Center(

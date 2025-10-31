@@ -8,12 +8,11 @@ class MealDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(meal.title),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text(meal.title)),
+        body: Container(),
       ),
-      body: Container(),
     );
   }
-
 }
