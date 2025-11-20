@@ -16,48 +16,14 @@ class MealDetailsScreen extends StatelessWidget {
             children: [
               Image.network(meal.imageUrl),
               const SizedBox(height: 10),
-              Text(
-                'Ingredients',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
-              ...meal.ingredients.map(
-                (ingredient) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 1.0,
-                    horizontal: 4.0,
-                  ),
-                  child: Text(
-                    ingredient,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
+              _MealInstructions(
+                mealInstructions: meal.ingredients,
+                titleText: 'Ingredients',
               ),
               const SizedBox(height: 20),
-              Text(
-                'Steps',
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
-              ...meal.steps.map(
-                (step) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 1.0,
-                    horizontal: 4.0,
-                  ),
-                  child: Text(
-                    step,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
+              _MealInstructions(
+                titleText: 'Steps',
+                mealInstructions: meal.steps,
               ),
               SizedBox(height: 20),
               Wrap(
@@ -90,10 +56,46 @@ class MealDetailsScreen extends StatelessWidget {
   }
 }
 
-class _IsDetails extends StatelessWidget {
-  final String text;
+class _MealInstructions extends StatelessWidget {
+  const _MealInstructions({
+    required this.mealInstructions,
+    required this.titleText,
+  });
 
+  final String titleText;
+  final List<String> mealInstructions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          titleText,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+        ...mealInstructions.map(
+          (step) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+            child: Text(
+              step,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _IsDetails extends StatelessWidget {
   const _IsDetails({required this.text});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
