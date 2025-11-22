@@ -5,9 +5,16 @@ import 'package:meals_app/screens/meal_details_screen.dart';
 import '../widgets/meal_preview.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, required this.title, required this.mealsData});
+  const MealsScreen({
+    super.key,
+    this.title,
+    required this.mealsData,
+    required this.onToggleFavorite,
+  });
 
-  final String title;
+  final void Function(Meal meal) onToggleFavorite;
+
+  final String? title;
 
   final List<Meal> mealsData;
 
@@ -15,7 +22,10 @@ class MealsScreen extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
-          return MealDetailsScreen(meal: meal);
+          return MealDetailsScreen(
+            meal: meal,
+            onToggleFavorite: onToggleFavorite,
+          );
         },
       ),
     );
@@ -27,6 +37,7 @@ class MealsScreen extends StatelessWidget {
     final Widget content;
     if (mealsData.isNotEmpty) {
       content = ListView.builder(
+        padding: const EdgeInsets.only(top: 10),
         itemCount: mealsData.length,
         itemBuilder: (ctx, index) {
           final currentMeal = mealsData[index];
@@ -58,19 +69,22 @@ class MealsScreen extends StatelessWidget {
         ),
       );
     }
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            title,
-            style: theme.textTheme.headlineLarge!.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+
+    if (title == null) {
+      return content;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          title!,
+          style: theme.textTheme.headlineLarge!.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
           ),
         ),
-        body: content,
-        backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      body: content,
+      backgroundColor: theme.scaffoldBackgroundColor,
     );
   }
 }

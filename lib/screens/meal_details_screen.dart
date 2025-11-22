@@ -4,13 +4,27 @@ import 'package:meals_app/models/meal.dart';
 class MealDetailsScreen extends StatelessWidget {
   final Meal meal;
 
-  const MealDetailsScreen({super.key, required this.meal});
+  const MealDetailsScreen({
+    super.key,
+    required this.meal,
+    required this.onToggleFavorite,
+  });
+
+  final void Function(Meal meal) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(meal.title)),
+        appBar: AppBar(
+          title: Text(meal.title, softWrap: true),
+          actions: [
+            IconButton(
+              onPressed: () => onToggleFavorite(meal),
+              icon: Icon(Icons.star),
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -67,27 +81,33 @@ class _MealInstructions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          titleText,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        children: [
+          Text(
+            titleText,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
-        ),
-        ...mealInstructions.map(
-          (step) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-            child: Text(
-              step,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ...mealInstructions.map(
+            (step) => Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 1.0,
+                horizontal: 4.0,
+              ),
+              child: Text(
+                step,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
