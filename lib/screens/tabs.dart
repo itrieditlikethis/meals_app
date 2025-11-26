@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories_screen.dart';
+import 'package:meals_app/screens/filters_screen.dart';
 import 'package:meals_app/screens/meals_screen.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -34,6 +35,16 @@ class _TabsScreenState extends State<TabsScreen> {
           });
   }
 
+  void _selectScreen(String identifier) {
+    if (identifier == 'Meals') {
+      Navigator.of(context).pop();
+    } else if (identifier == 'Filters') {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (ctx) => FiltersScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget activePage = CategoriesScreen(onToggleFavorite: _setIsFavoriteMeal);
@@ -50,13 +61,6 @@ class _TabsScreenState extends State<TabsScreen> {
         );
         activePageTitle = 'Favorites';
         break;
-    }
-
-    void _selectScreen(String identifier) {
-      Navigator.of(context).pop();
-      if (identifier == 'Meals') {
-        _selectPage(0);
-      } else if (identifier == 'Filters') {}
     }
 
     return SafeArea(
