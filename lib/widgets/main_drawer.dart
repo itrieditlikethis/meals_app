@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  const MainDrawer({super.key, required this.selectScreen});
+
+  final void Function(String identifier) selectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +41,16 @@ class MainDrawer extends StatelessWidget {
               ],
             ),
           ),
-          _DrawerListTile(tileIcon: Icons.restaurant, tileTitle: 'Meals'),
-          _DrawerListTile(tileIcon: Icons.settings, tileTitle: 'Filters'),
+          _DrawerListTile(
+            tileIcon: Icons.restaurant,
+            tileTitle: 'Meals',
+            onSelectScreen: selectScreen,
+          ),
+          _DrawerListTile(
+            tileIcon: Icons.settings,
+            tileTitle: 'Filters',
+            onSelectScreen: selectScreen,
+          ),
         ],
       ),
     );
@@ -48,8 +58,13 @@ class MainDrawer extends StatelessWidget {
 }
 
 class _DrawerListTile extends StatelessWidget {
-  const _DrawerListTile({required this.tileIcon, required this.tileTitle});
+  const _DrawerListTile({
+    required this.tileIcon,
+    required this.tileTitle,
+    required this.onSelectScreen,
+  });
 
+  final void Function(String identifier) onSelectScreen;
   final IconData tileIcon;
   final String tileTitle;
 
@@ -66,7 +81,7 @@ class _DrawerListTile extends StatelessWidget {
           fontSize: 24,
         ),
       ),
-      onTap: () {},
+      onTap: () => onSelectScreen(tileTitle),
     );
   }
 }

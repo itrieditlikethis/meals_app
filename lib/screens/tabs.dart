@@ -52,10 +52,17 @@ class _TabsScreenState extends State<TabsScreen> {
         break;
     }
 
+    void _selectScreen(String identifier) {
+      Navigator.of(context).pop();
+      if (identifier == 'Meals') {
+        _selectPage(0);
+      } else if (identifier == 'Filters') {}
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: Text(activePageTitle)),
-        drawer: MainDrawer(),
+        drawer: MainDrawer(selectScreen: _selectScreen),
         body: activePage,
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => _selectPage(index),
