@@ -36,9 +36,8 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _selectScreen(String identifier) {
-    if (identifier == 'Meals') {
-      Navigator.of(context).pop();
-    } else if (identifier == 'Filters') {
+    Navigator.of(context).pop();
+    if (identifier == 'Filters') {
       Navigator.of(
         context,
       ).push(MaterialPageRoute(builder: (ctx) => FiltersScreen()));
