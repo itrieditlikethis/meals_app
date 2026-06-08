@@ -10,7 +10,6 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  // TODO: implement filters naming with enums
   bool _isGlutenFree = false;
   bool _isLactoseFree = false;
   bool _isVegan = false;
@@ -39,37 +38,53 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Filters')),
-      body: Column(
-        spacing: 20,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Choose what to filter',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, dynamic result) {
+          if (didPop) return;
+          Navigator.of(context).pop({
+            DrawerFilter.glutenFree: _isGlutenFree,
+            DrawerFilter.lactoseFree: _isLactoseFree,
+            DrawerFilter.vegetarian: _isVegetarian,
+            DrawerFilter.vegan: _isVegan,
+          });
+        },
+        child: Column(
+          spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Choose what to filter',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          _FilterSwitch(
-            title: 'Gluten-free',
-            value: _isGlutenFree,
-            onChanged: _onChanged,
-          ),
-          _FilterSwitch(
-            title: 'Lactose-free',
-            value: _isLactoseFree,
-            onChanged: _onChanged,
-          ),
-          _FilterSwitch(title: 'Vegan', value: _isVegan, onChanged: _onChanged),
-          _FilterSwitch(
-            title: 'Vegetarian',
-            value: _isVegetarian,
-            onChanged: _onChanged,
-          ),
-        ],
+            const SizedBox(height: 10),
+            _FilterSwitch(
+              title: 'Gluten-free',
+              value: _isGlutenFree,
+              onChanged: _onChanged,
+            ),
+            _FilterSwitch(
+              title: 'Lactose-free',
+              value: _isLactoseFree,
+              onChanged: _onChanged,
+            ),
+            _FilterSwitch(
+              title: 'Vegan',
+              value: _isVegan,
+              onChanged: _onChanged,
+            ),
+            _FilterSwitch(
+              title: 'Vegetarian',
+              value: _isVegetarian,
+              onChanged: _onChanged,
+            ),
+          ],
+        ),
       ),
     );
   }
