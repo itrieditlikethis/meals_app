@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/screens/filters_screen.dart';
 import 'package:meals_app/widgets/category_grid_item.dart';
 
 import '../models/category.dart';
 import 'meals_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key, required this.onToggleFavorite});
+  const CategoriesScreen({super.key, required Map<DrawerFilter, bool> selectedFilters, required this.onToggleFavorite})
+    : _selectedFilters = selectedFilters;
 
+  final Map<DrawerFilter, bool> _selectedFilters;
   final void Function(Meal meal) onToggleFavorite;
 
   void _selectCategory(BuildContext context, Category category) {
-    final filteredDummyMeals = dummyMeals
-        .where((el) => el.categories.contains(category.id))
-        .toList();
+    final filteredDummyMeals = dummyMeals.where((el) => el.categories.contains(category.id)).where((meal) {
+      if (_selectedFilters[DrawerFilter.glutenFree]! && !meal.isGlutenFree) return false;
+      if (_selectedFilters[DrawerFilter.lactoseFree]! && !meal.isLactoseFree) return false;
+      if (_selectedFilters[DrawerFilter.vegan]! && !meal.isVegan) return false;
+      if (_selectedFilters[DrawerFilter.vegetarian]! && !meal.isVegetarian) return false;
+      return true;
+    }).toList();
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MealsScreen(
-          title: category.title,
-          mealsData: filteredDummyMeals,
-          onToggleFavorite: onToggleFavorite,
-        ),
+        builder: (ctx) =>
+            MealsScreen(title: category.title, mealsData: filteredDummyMeals, onToggleFavorite: onToggleFavorite),
       ),
     );
   }
@@ -38,12 +42,7 @@ class CategoriesScreen extends StatelessWidget {
         mainAxisSpacing: 20,
       ),
       children: availableCategories
-          .map(
-            (item) => CategoryGridItem(
-              category: item,
-              onSelectCategory: () => _selectCategory(context, item),
-            ),
-          )
+          .map((item) => CategoryGridItem(category: item, onSelectCategory: () => _selectCategory(context, item)))
           .toList(),
     );
   }
