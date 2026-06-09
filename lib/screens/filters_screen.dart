@@ -3,17 +3,29 @@ import 'package:flutter/material.dart';
 enum DrawerFilter { glutenFree, lactoseFree, vegan, vegetarian }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required Map<DrawerFilter, bool> selectedFilters})
+    : _selectedFilters = selectedFilters;
+
+  final Map<DrawerFilter, bool> _selectedFilters;
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  bool _isGlutenFree = false;
-  bool _isLactoseFree = false;
-  bool _isVegan = false;
-  bool _isVegetarian = false;
+  late bool _isGlutenFree;
+  late bool _isLactoseFree;
+  late bool _isVegan;
+  late bool _isVegetarian;
+
+  @override
+  void initState() {
+    _isGlutenFree = widget._selectedFilters[DrawerFilter.glutenFree]!;
+    _isLactoseFree = widget._selectedFilters[DrawerFilter.lactoseFree]!;
+    _isVegan = widget._selectedFilters[DrawerFilter.vegan]!;
+    _isVegetarian = widget._selectedFilters[DrawerFilter.vegetarian]!;
+    super.initState();
+  }
 
   void _onChanged({bool? isChecked, String? filterTitle}) {
     setState(() {
@@ -63,26 +75,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            _FilterSwitch(
-              title: 'Gluten-free',
-              value: _isGlutenFree,
-              onChanged: _onChanged,
-            ),
-            _FilterSwitch(
-              title: 'Lactose-free',
-              value: _isLactoseFree,
-              onChanged: _onChanged,
-            ),
-            _FilterSwitch(
-              title: 'Vegan',
-              value: _isVegan,
-              onChanged: _onChanged,
-            ),
-            _FilterSwitch(
-              title: 'Vegetarian',
-              value: _isVegetarian,
-              onChanged: _onChanged,
-            ),
+            _FilterSwitch(title: 'Gluten-free', value: _isGlutenFree, onChanged: _onChanged),
+            _FilterSwitch(title: 'Lactose-free', value: _isLactoseFree, onChanged: _onChanged),
+            _FilterSwitch(title: 'Vegan', value: _isVegan, onChanged: _onChanged),
+            _FilterSwitch(title: 'Vegetarian', value: _isVegetarian, onChanged: _onChanged),
           ],
         ),
       ),
@@ -91,11 +87,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 }
 
 class _FilterSwitch extends StatelessWidget {
-  const _FilterSwitch({
-    required this.title,
-    required this.value,
-    required this.onChanged,
-  });
+  const _FilterSwitch({required this.title, required this.value, required this.onChanged});
 
   final String title;
   final bool value;
@@ -106,8 +98,7 @@ class _FilterSwitch extends StatelessWidget {
     return SwitchListTile(
       title: Text(title),
       value: value,
-      onChanged: (bool isChecked) =>
-          onChanged(isChecked: isChecked, filterTitle: title),
+      onChanged: (bool isChecked) => onChanged(isChecked: isChecked, filterTitle: title),
     );
   }
 }
